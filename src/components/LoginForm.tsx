@@ -16,11 +16,41 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setEmailError("");
+    setPasswordError("");
+
+    let hasError = false;
+
+    if (!email) {
+      setEmailError("Email is required");
+      hasError = true;
+    } else if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      hasError = true;
+    }
+
+    if (!password) {
+      setPasswordError("Password is required");
+      hasError = true;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      hasError = true;
+    }
+
+    if (hasError) return;
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
@@ -70,6 +100,8 @@ const LoginForm = () => {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!!emailError}
+              helperText={emailError || "Demo: user@ragaai.com"}
             />
             <TextField
               margin="normal"
@@ -80,6 +112,8 @@ const LoginForm = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!!passwordError}
+              helperText={passwordError || "Demo: Com@123456"}
             />
             <Button
               type="submit"
