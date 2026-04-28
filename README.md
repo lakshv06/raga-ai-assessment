@@ -48,6 +48,15 @@ VITE_FIREBASE_APP_ID=your_firebase_app_id
 - Do not commit `.env`; the repository ignores `.env*` files.
 - Firebase must have Email/Password authentication enabled for login to work.
 
+## Live Demo
+
+The app is deployed at: https://raga-ai-assessment-six.vercel.app/
+
+### Demo Credentials
+
+- Email: user@ragaai.com
+- Password: Com@123456
+
 ## Setup
 
 Install dependencies:
